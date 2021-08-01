@@ -1,4 +1,4 @@
-defmodule Blog.MixProject do
+defmodule BlogUmbrella.MixProject do
   use Mix.Project
 
   def project do
