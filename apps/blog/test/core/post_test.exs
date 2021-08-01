@@ -8,14 +8,15 @@ defmodule Blog.Core.PostTest do
       raw_content = """
       -- date: 2021-08-01
       -- title: Hello, world!
+
+      test
       """
 
       parsed =
         raw_content
-        |> Post.new()
         |> Post.parse_metadata()
 
-      assert {%{"date" => "2021-08-01", "title" => "Hello, world!"}, []} == parsed
+      assert {%{"date" => "2021-08-01", "title" => "Hello, world!"}, ["test"]} == parsed
     end
 
     test "it cleans empty lines" do
@@ -27,10 +28,9 @@ defmodule Blog.Core.PostTest do
 
       parsed =
         raw_content
-        |> Post.new()
         |> Post.parse_metadata()
 
-      assert {%{"foo" => "bar"}, ["Hello, world!", ""]} == parsed
+      assert {%{"foo" => "bar"}, ["Hello, world!"]} == parsed
     end
 
     test "it works with incorrect format" do
@@ -43,10 +43,9 @@ defmodule Blog.Core.PostTest do
 
       parsed =
         raw_content
-        |> Post.new()
         |> Post.parse_metadata()
 
-      assert {%{}, raw_content |> String.split("\n")} == parsed
+      assert {%{}, raw_content |> String.trim() |> String.split("\n")} == parsed
     end
   end
 
@@ -61,7 +60,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse()
 
-      assert %Post{raw_content: raw_content, html_content: "<h1>\nHello, world!</h1>\n"} == parsed
+      assert %Post{body: "<h1>\nHello, world!</h1>\n"} == parsed
     end
 
     test "it highlighs code blocks" do
@@ -77,7 +76,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse()
 
-      assert parsed.html_content ==
+      assert parsed.body ==
                "<pre class=\"highlight\"><code><span class=\"n\">a</span><span class=\"w\"> </span><span class=\"o\">=</span><span class=\"w\"> </span><span class=\"mi\">1</span><span class=\"w\"> </span><span class=\"o\">+</span><span class=\"w\"> </span><span class=\"mi\">5</span><span class=\"w\">\n</span><span class=\"n\">b</span><span class=\"w\"> </span><span class=\"o\">=</span><span class=\"w\"> </span><span class=\"s\">&quot;test&quot;</span></code></pre>\n"
     end
 
@@ -93,7 +92,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse()
 
-      assert parsed.html_content ==
+      assert parsed.body ==
                "<pre class=\"highlight\"><code><span class=\"mi\">1</span><span class=\"w\"> </span><span class=\"o\">+</span><span class=\"w\"> </span><span class=\"mi\">2</span></code></pre>\n"
     end
 
@@ -107,7 +106,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse()
 
-      assert parsed.html_content == "<p>\n<code class=\"inline\">1 + 2</code></p>\n"
+      assert parsed.body == "<p>\n<code class=\"inline\">1 + 2</code></p>\n"
     end
   end
 end

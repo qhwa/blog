@@ -1,4 +1,15 @@
 <%= for post <- @posts do %>
-  <%= raw(post.html_content) %>
+  <h2>
+    <%= link post.title, to: "#" %>
+  </h2>
+  <%= post.date %>
+  <%= post.author %>
+  <ul class="tags">
+    <%= for tag <- (post.tags || []) do %>
+      <%= link tag, to: "#" %>
+    <% end %>
+  </ul>
+
+  <%= raw(post.body) %>
 <% end %>
 

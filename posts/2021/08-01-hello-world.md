@@ -1,8 +1,5 @@
 -- title: Hello, world!
--- date: 2020-08-01
 -- tags: blog
-
-# Hello, world!
 
 I just built another blog. Given I already have two blogs (pnq and medium), why would I build another blog engine on my own?
 
