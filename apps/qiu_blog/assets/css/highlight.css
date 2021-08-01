@@ -1,0 +1,45 @@
+pre { white-space: pre-wrap; font-family: 'Montserrat', sans-serif; color: #000000; background-color: #ffffff; word-break: break-all; }
+body { font-family: 'Montserrat', sans-serif; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.nf { color: #3a1d72; }
+.Statement, .o { color: #2f6f9f; background-color: #f4faff; padding-bottom: 1px; }
+.kd, .k { color: #222222; background-color: #eeeeee; padding-bottom: 1px; }
+.m, .mi, .mf { color: #7653c1; background-color: #f3f2ff; padding-bottom: 1px; }
+.Special { color: #2f6f9f; }
+.Title { color: #000000; }
+.ss, .s { color: #d44950; }
+.nc, .n { color: #699d36; }
+
+td.datetime { width: 20%; }
+td.header { width: 20%; }
+datetime {color: #999; }
+.location-diagram {
+  display: flex;
+  align-items: center;
+}
+.location-diagram > * {
+  text-align: center;
+}
+.location-diagram .route {
+  padding: 1em;
+}
+.location-diagram .geolocation {
+  font-size: 80%;
+}
+.Module-actions {
+  margin-top: 25px;
+  max-width: 300px;
+}
+.Module-actions span {
+  padding-left: 10px;
+}
+
+.Module-actions a {
+  opacity: 0.9;
+  display: block;
+  padding-bottom: 20px;
+}
+
+.Module-actions a:hover {
+  opacity: 1;
+}

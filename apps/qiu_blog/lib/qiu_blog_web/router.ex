@@ -16,7 +16,9 @@ defmodule QiuBlogWeb.Router do
   scope "/", QiuBlogWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/tag/:tag", PostController, :index, as: :tag
+
+    resources "/", PostController
   end
 
   # Other scopes may use custom stacks.

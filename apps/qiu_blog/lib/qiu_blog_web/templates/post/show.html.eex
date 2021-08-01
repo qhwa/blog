@@ -1,0 +1,6 @@
+<h1><%= raw @post.title %></h1>
+<%= @post.date %>
+<%= @post.author %>
+<%= render "tags.html", tags: @post.tags, conn: @conn %>
+
+<%= raw(@post.body) %>

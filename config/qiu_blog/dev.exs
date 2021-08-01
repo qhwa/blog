@@ -49,7 +49,8 @@ config :qiu_blog, QiuBlogWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/qiu_blog_web/(live|views)/.*(ex)$",
-      ~r"lib/qiu_blog_web/templates/.*(eex)$"
+      ~r"lib/qiu_blog_web/templates/.*(eex)$",
+      ~r"../../posts/.*/.*(md)$"
     ]
   ]
 

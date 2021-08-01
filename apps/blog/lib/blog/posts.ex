@@ -1,6 +1,10 @@
 defmodule Blog.Posts do
   alias Blog.Core.Post
 
+  for app <- ~w[makeup makeup_elixir makeup_c makeup_html]a do
+    Application.ensure_all_started(app)
+  end
+
   paths =
     Application.compile_env(:blog, :posts_dir)
     |> Path.join("/**/*.md")
@@ -18,4 +22,10 @@ defmodule Blog.Posts do
   @posts posts
 
   def all, do: @posts
+
+  def all_with_tag(tag),
+    do: @posts |> Enum.filter(&Enum.member?(&1.tags, tag))
+
+  def get(id),
+    do: @posts |> Enum.find(&(&1.id == id))
 end

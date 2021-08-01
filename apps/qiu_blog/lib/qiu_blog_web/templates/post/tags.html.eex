@@ -1,0 +1,5 @@
+<ul class="tags">
+  <%= for tag <- (@tags || []) do %>
+    <%= link tag, to: Routes.tag_path(@conn, :index, tag) %>
+  <% end %>
+</ul>
