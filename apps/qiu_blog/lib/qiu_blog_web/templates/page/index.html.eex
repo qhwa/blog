@@ -1,0 +1,4 @@
+<%= for post <- @posts do %>
+  <%= raw(post.html_content) %>
+<% end %>
+

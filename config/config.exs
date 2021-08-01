@@ -17,3 +17,5 @@ import Config
 #       metadata: [:user_id]
 #
 config :blog, :posts_dir, Path.expand("../posts", __DIR__)
+
+import_config "qiu_blog/config.exs"
