@@ -15,7 +15,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse_metadata()
 
-      assert {[{"date", "2021-08-01"}, {"title", "Hello, world!"}], []} == parsed
+      assert {%{"date" => "2021-08-01", "title" => "Hello, world!"}, []} == parsed
     end
 
     test "it cleans empty lines" do
@@ -30,7 +30,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse_metadata()
 
-      assert {[{"foo", "bar"}], ["Hello, world!", ""]} == parsed
+      assert {%{"foo" => "bar"}, ["Hello, world!", ""]} == parsed
     end
 
     test "it works with incorrect format" do
@@ -46,7 +46,7 @@ defmodule Blog.Core.PostTest do
         |> Post.new()
         |> Post.parse_metadata()
 
-      assert {[], raw_content |> String.split("\n")} == parsed
+      assert {%{}, raw_content |> String.split("\n")} == parsed
     end
   end
 
