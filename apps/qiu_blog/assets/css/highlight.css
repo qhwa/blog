@@ -9,6 +9,7 @@ body { font-family: 'Montserrat', sans-serif; color: #000000; background-color: 
 .Title { color: #000000; }
 .ss, .s { color: #d44950; }
 .nc, .n { color: #699d36; }
+.c1 { color: #999; }
 
 td.datetime { width: 20%; }
 td.header { width: 20%; }

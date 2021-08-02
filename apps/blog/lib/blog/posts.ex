@@ -18,8 +18,7 @@ defmodule Blog.Posts do
       Post.parse_file!(path)
     end
 
-  # @posts Enum.sort_by(posts, & &1.date, {:desc, Date})
-  @posts posts
+  @posts Enum.sort_by(posts, & &1.date, {:desc, Date})
 
   def all, do: @posts
 

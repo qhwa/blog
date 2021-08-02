@@ -1,5 +1,5 @@
 defmodule Blog.Core.MarkdownParser do
-  @code_block_reg ~r/<pre><code(?: class="(.+)")?>(.+)<\/code><\/pre>/ms
+  @code_block_reg ~r/<pre><code(?: class="(.+)")?>(.+)<\/code><\/pre>/mUs
   @default_language "elixir"
 
   def parse(lines) do
