@@ -21,7 +21,7 @@ defmodule QiuBlogWeb.Endpoint do
     at: "/",
     from: :qiu_blog,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico favicon.png robots.txt)
+    only: ~w(assets fonts images favicon.ico robots.txt)
 
   plug Plug.Static,
     at: "/post-images",

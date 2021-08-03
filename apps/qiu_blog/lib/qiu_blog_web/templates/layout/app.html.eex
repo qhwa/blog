@@ -12,8 +12,8 @@
               "Qiu's Blog"
       end %>
     </title>
-    <link rel="apple-touch-icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/favicon.png") %>" />
-    <link rel="icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/favicon.png") %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>" />
+    <link rel="icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/assets/app.js") %>"></script>
   </head>
