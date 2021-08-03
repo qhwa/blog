@@ -19,6 +19,7 @@ defmodule QiuBlogWeb.Router do
     get "/posts/tag/:tag", PostController, :index, as: :tag
     resources "/post", PostController
     get "/", PostController, :index
+    get "/about", PageController, :show, assigns: %{page: "about"}
   end
 
   # Other scopes may use custom stacks.

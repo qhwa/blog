@@ -36,6 +36,11 @@ a.brand {
   text-indent: -10000em;
 }
 
+ul.tags > a {
+  color: #999;
+  text-decoration: underline;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;
