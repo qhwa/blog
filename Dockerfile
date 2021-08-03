@@ -139,8 +139,6 @@ ARG MIX_ENV=prod
 
 
 COPY --from=digest /src/apps/qiu_blog/priv/static ./apps/qiu_blog/priv/static
-RUN ls -al apps/qiu_blog/priv/static/
-
 
 RUN mix release --path /app --quiet
 
@@ -153,10 +151,10 @@ FROM elixir-runner AS release_image
 ARG APP_REVISION=latest
 ARG MIX_ENV=prod
 
-USER nobody
+COPY --from=mix_release /app /app
+COPY --from=compile_app /src/images /src/images
 
-COPY --from=mix_release --chown=nobody:nogroup /app /app
-COPY --from=compile_app --chown=nobody:nogroup /src/images /src/images
+ENV CERT_MODE=production
 
 WORKDIR /app
 ENTRYPOINT ["/app/bin/blog"]

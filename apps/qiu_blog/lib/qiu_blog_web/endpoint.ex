@@ -21,7 +21,7 @@ defmodule QiuBlogWeb.Endpoint do
     at: "/",
     from: :qiu_blog,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: ~w(assets fonts images favicon.ico favicon.png robots.txt)
 
   plug Plug.Static,
     at: "/post-images",
@@ -61,7 +61,7 @@ defmodule QiuBlogWeb.Endpoint do
       # host machine.
       client: :native,
       domains: ["q-the-hacker.com", "www.q-the-hacker.com"],
-      emails: ["qhwa@pnq.cc"],
+      emails: ["qiu@q-the-hacker.com"],
 
       # By default the certs will be stored in tmp/site_encrypt_db, which is convenient for
       # local development. Make sure that tmp folder is gitignored.
