@@ -50,7 +50,8 @@ defmodule QiuBlog.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:blog, in_umbrella: true}
+      {:blog, in_umbrella: true},
+      {:site_encrypt, "~> 0.4"}
     ]
   end
 

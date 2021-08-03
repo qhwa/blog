@@ -13,7 +13,8 @@ defmodule QiuBlog.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: QiuBlog.PubSub},
       # Start the Endpoint (http/https)
-      QiuBlogWeb.Endpoint
+      {SiteEncrypt.Phoenix, QiuBlogWeb.Endpoint}
+      # QiuBlogWeb.Endpoint
       # Start a worker by calling: QiuBlog.Worker.start_link(arg)
       # {QiuBlog.Worker, arg}
     ]

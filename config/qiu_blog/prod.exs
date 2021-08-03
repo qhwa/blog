@@ -10,8 +10,9 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :qiu_blog, QiuBlogWeb.Endpoint,
-  http: [ip: {0, 0, 0, 0}, port: 8080],
-  url: [host: "qiu.pnq.cc", port: 8080],
+  http: [ip: {0, 0, 0, 0}, port: 80],
+  https: [ip: {0, 0, 0, 0}, port: 443],
+  url: [host: "q-the-hacker.com", port: 443, schema: :https],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 
