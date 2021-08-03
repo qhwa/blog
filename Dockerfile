@@ -72,8 +72,8 @@ COPY mix.exs mix.lock /src/
 
 # If inside an umbrella project, you also need to add all `mix.exs`
 # e.g
-# COPY apps/my_app_1/mix.exs /src/apps/my_app_1/mix.exs
-# COPY apps/my_app_2/mix.exs /src/apps/my_app_2/mix.exs
+COPY apps/blog/mix.exs /src/apps/blog/mix.exs
+COPY apps/qiu_blog/mix.exs /src/apps/qiu_blog/mix.exs
 
 # If you're using your own organization on hex.pm, uncomment the
 # following lines:
@@ -101,55 +101,30 @@ WORKDIR /src
 
 ARG MIX_ENV=prod
 
-COPY lib/ ./lib
+COPY apps/blog/lib/ ./apps/blog/lib
+COPY apps/qiu_blog/lib/ ./apps/qiu_blog/lib
+COPY apps/qiu_blog/priv/ ./apps/qiu_blog/priv
 
-
-COPY priv/ ./priv
-
+COPY posts/ ./posts
+COPY images/ ./images
 
 RUN mix compile
 
-
-
-# -----------------------------------
-# - stage: build
-# - job: assets
-# -----------------------------------
-FROM deps AS assets
-
-WORKDIR /src/assets
-
-COPY assets/package.json assets/package-lock.json ./
-
-ARG NPM_REGISTRY=https://registry.npmjs.com/
-
-RUN npm \
-  --registry ${NPM_REGISTRY} \
-  --prefer-offline \
-  --no-audit \
-  --ignore-scripts \
-  ci
-
-ARG SASS_BINARY_SITE
-
-RUN npm rebuild node-sass
-
-COPY assets/ ./
-
-RUN npm run deploy
 
 # -----------------------------------
 # - stage: build
 # - job: digest
 # -----------------------------------
 FROM compile_deps AS digest
-WORKDIR /src
+WORKDIR /src/apps/qiu_blog
 
 ARG MIX_ENV=prod
 
-COPY --from=assets /src/priv ./priv
+COPY apps/qiu_blog/assets/ ./assets
+COPY apps/qiu_blog/priv/ ./priv
 
-RUN mix phx.digest
+
+RUN mix assets.deploy
 
 
 # -----------------------------------
@@ -163,7 +138,8 @@ WORKDIR /src
 ARG MIX_ENV=prod
 
 
-COPY --from=digest /src/priv/static ./priv/static
+COPY --from=digest /src/apps/qiu_blog/priv/static ./apps/qiu_blog/priv/static
+RUN ls -al apps/qiu_blog/priv/static/
 
 
 RUN mix release --path /app --quiet
@@ -180,6 +156,7 @@ ARG MIX_ENV=prod
 USER nobody
 
 COPY --from=mix_release --chown=nobody:nogroup /app /app
+COPY --from=compile_app --chown=nobody:nogroup /src/images /src/images
 
 WORKDIR /app
 ENTRYPOINT ["/app/bin/blog"]
