@@ -19,7 +19,8 @@ config :qiu_blog, QiuBlogWeb.Endpoint,
 config :esbuild,
   version: "0.12.17",
   default: [
-    args: ~w(js/app.js --bundle --target=es2016 --outdir=../priv/static/assets),
+    args:
+      ~w(js/app.js --bundle --target=es2016 --outdir=../priv/static/assets --loader:.png=file),
     cd: Path.expand("../../apps/qiu_blog/assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../../deps", __DIR__)}
   ]

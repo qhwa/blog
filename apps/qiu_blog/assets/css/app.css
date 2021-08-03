@@ -2,6 +2,11 @@
 @import "./phoenix.css";
 @import "./highlight.css";
 
+h3 {
+  display: inline-block;
+  background: url("./title-bg.png") no-repeat left center / cover;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;
