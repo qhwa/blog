@@ -1,19 +1,19 @@
--- title: Thinking In Elixir (1) : Pattern Matching
+-- title: Thinking In Elixir (1): Pattern Matching
 -- tags: Elixir, pattern matching
 
-Most developers have previous programming experiences before using Elixir. Some come to Elixir land from an OOP land. In such cases, a shift of programming model is required to master programming in Elixir. In this post, I'm gonna show some common patterns than can help new developers master their Elixir skills.
+Most developers have previous programming experiences before using Elixir. Some come to Elixir land from an OOP land. In such cases, a shift of programming models is required to master programming in Elixir. In this post, I'm gonna show some common patterns that can help new developers master their Elixir skills.
 
-Pattern matching is probably new to many who came from the land of OOP world. Elixir does have `if`, `unless`, `else` and `cond` which allows you do a traditional way of controling. But in most cases, pattern matching is a better choice if possible.
+Pattern matching is probably new to many who came from the land of the OOP world. Elixir does have `if`, `unless`, `else`, and `cond` which allows you to do a traditional way of controlling. But in most cases, pattern matching is a better choice if possible.
 
 ### Pattern matching makes your code expressive.
 
-When you describes the requirement with pattern matching, you've almost finished developing the requirement. Let's take an example.
+When you describe the requirement with pattern matching, you've almost finished programming. Let's take an example.
 
 ![family demand](/post-images/family-demand.png)
 
 For example, your partner asks you to buy something from the market on your way home:
 
-> If you come home early today, please buy some fruits and vegetables from the market. I need *a bag of potatoes*. Also buy *some apples* and *grapes* if you see them.
+> If you come home early today, please buy some fruits and vegetables from the market. I need *a bag of potatoes*. Also, buy *some apples* and *grapes* if you see them.
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
@@ -42,7 +42,7 @@ what_to_buy(now, demands, items_seen)
 #   }
 ```
 
-We may write something straitforward with `if` and `cond` which are common logic controls in other languages.
+We may write something straightforward with `if` and `cond` which are common logic controls in other languages.
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
@@ -130,7 +130,7 @@ But there's more about pattern matching.
 
 ![linked list](/post-images/linked-list.png)
 
-Some new developers think list in Elixir/Erlang as an equavilent to Array in JavaScript. While Array has a `length` property which allows us get the length of it effiecantly, list doesn't. The following code is considered inefficent:
+Some new developers think list in Elixir/Erlang as equivalent to Array in JavaScript. While an array has a `length` property that allows us to get the length of it efficiently, a list doesn't. The following code is considered inefficient:
 
 ```elixir
 # Do not do:
@@ -143,9 +143,9 @@ def handle_something(my_list) do
 end
 ```
 
-The problem is that lists are linked and sparse in memory. It's `O(1)` to get the head of the list, or get the rest which is another list. When the rest is an empty list `[]`, we know we have reached the end of the list. Getting the length of a list is of `O(n)` complexity of time.
+The problem is that lists are linked and sparse in memory. It's `O(1)` to get the head of the list or get the rest which is another list. When the rest is an empty list `[]`, we know we have reached the end of the list. Getting the length of a list is of `O(n)` complexity of time.
 
-So, the above example can be rewritter to:
+So, the above example can be rewritten to:
 
 ```elixir
 def handle_something(my_list),
@@ -175,14 +175,14 @@ And also, pattern matching can be used check if a list is empty:
 
 ### Pattern matching with binaries
 
-One exciting thing of pattern matching is that binaries can be matched too. This makes decoding binary data such a enjoyment. I love processing data in Elixir and that's one of the strong reasons.
+One exciting thing about pattern matching is that binaries can be matched too. This makes decoding binary data such an enjoyment. I love processing data in Elixir and that's one of the strong reasons.
 
 If you're interested, I wrote another post on binaries: [Questions for BitString, Binary, Charlist, and String in Elixir — Part 2: Binary (or bytes)](https://qhwa-85848.medium.com/questions-for-bitstring-binary-charlist-and-string-in-elixir-part-2-binary-or-bytes-687315789030)
 
 
 To be continued:
 
-2. List and recursion
-3. Pipeline and small single-purpose functions
-4. Immutation and pure functions
-5. Try & Catch.
+* comparison
+* List and recursion
+* small single-purpose and pure functions
+* Try & Catch.
