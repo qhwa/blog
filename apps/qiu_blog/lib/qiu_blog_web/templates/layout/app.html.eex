@@ -4,7 +4,14 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Qiu's Blog</title>
+    <title><%= case @conn.assigns[:title] do
+            title when is_binary(title) ->
+              "#{title} - Qiu's Blog"
+
+            _ ->
+              "Qiu's Blog"
+      end %>
+    </title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/assets/app.js") %>"></script>
   </head>
@@ -13,13 +20,13 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li></li>
+            <li><a href="/about">About</a></li>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
           </ul>
         </nav>
-        <a href="/">
+        <a href="/" class="brand">
           Qiu's Blog
         </a>
       </section>
@@ -29,5 +36,12 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>
     </main>
+
+    <footer class="page-footer">
+      Built with
+      <a href="https://elixir-lang.org" rel="no-follow">Elixir</a>,
+      <a href="https://phoenixframework.org" rel="no-follow">Phoenix</a>,
+      <a href="https://github.com/tonsky/FiraCode" rel="no-follow">Fira Code</a> and other open-source projects.
+    </footer>
   </body>
 </html>

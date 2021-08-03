@@ -1,10 +1,39 @@
 /* This file is for your main application CSS */
 @import "./phoenix.css";
 @import "./highlight.css";
+@import "./fonts.css";
 
 h3 {
   display: inline-block;
   background: url("./title-bg.png") no-repeat left center / cover;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
+  background: #fff;
+}
+
+code.inline {
+  background: #eee;
+  font-size: 1em;
+}
+
+pre {
+  background: #fff;
+  border-left: none;
+}
+
+footer.page-footer {
+  text-align: center;
+  font-size: 90%;
+  padding: 2em 0;
+  color: #999;
+}
+
+a.brand {
+  min-width: 3em;
+  background: url(./q.png) no-repeat left center / auto 100%;
+  text-indent: -10000em;
 }
 
 /* Alerts and form errors used by phx.new */
