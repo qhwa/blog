@@ -5,3 +5,6 @@ services:
     build: .
     environment:
       - CERT_MODE
+    ports:
+      - "80:80"
+      - "443:443"
