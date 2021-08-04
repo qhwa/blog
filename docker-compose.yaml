@@ -3,6 +3,7 @@ version: '3'
 services:
   blog:
     build: .
+    restart: always
     environment:
       - CERT_MODE
     ports:
