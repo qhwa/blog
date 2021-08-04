@@ -13,7 +13,8 @@ config :qiu_blog, QiuBlogWeb.Endpoint,
   secret_key_base: "jtKc24LNHxYfLoMocwmeRCArpoDQ1jqwAzB89ZJlK8Fkwl0q7BVI9fiuVVLlust4",
   render_errors: [view: QiuBlogWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: QiuBlog.PubSub,
-  live_view: [signing_salt: "419a8oxA"]
+  live_view: [signing_salt: "419a8oxA"],
+  force_ssl: [hsts: true]
 
 # Configure esbuild (the version is required)
 config :esbuild,

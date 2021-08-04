@@ -51,7 +51,8 @@ defmodule QiuBlog.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:blog, in_umbrella: true},
-      {:site_encrypt, "~> 0.4"}
+      {:site_encrypt, "~> 0.4"},
+      {:plug_content_security_policy, "~> 0.2"}
     ]
   end
 
