@@ -1,9 +1,45 @@
--- title: Thinking In Elixir (1): Pattern Matching
+-- title: Thinking In Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
 
-Most developers have previous programming experiences before using Elixir. Some come to Elixir land from an OOP land. In such cases, a shift of programming models is required to master programming in Elixir. In this post, I'm gonna show some common patterns that can help new developers master their Elixir skills.
+Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, a shift of programming models is required to master programming in Elixir. In this post, I'm gonna show some common patterns that can help new developers master their Elixir skills.
 
-Pattern matching is probably new to many who came from the land of the OOP world. Elixir does have `if`, `unless`, `else`, and `cond` which allows you to do a traditional way of controlling. But in most cases, pattern matching is a better choice if possible.
+Pattern matching is one of the most exciting features in a functional programming language.
+
+### What is pattern matching?
+
+In Elixir `=` is a match asserting operator, instead of variable assigning. It takes left and right hand parts. If they match, the assertion is successful, and the result value of the expression is the right part.
+
+```elixir
+iex> :foo = :foo
+:foo
+
+iex> [1, 2] = [1, 2]
+[1, 2]
+
+iex> %{foo: "bar"} = %{foo: "bar", foz: "baz"}
+%{foo: "bar", foz: "baz"}
+```
+Otherwise, if not matched, it is considered unsuccessful and a `MatchError` will be raised:
+
+```elixir
+iex> :foo = "foo"
+** (MatchError) no match of right hand side value: "foo"
+```
+
+Pattern matching has a side effect. If the left hand part has some unbind variable names, the corresponding matched values will be bound to them, respectively:
+
+```elixir
+iex> {:ok, %{age: age, name: name}} = {:ok, %{age: 8, name: "Q"}}
+{:ok, %{age: 8, name: "Q"}}
+
+iex> age
+8
+
+iex> name
+"Q"
+```
+
+That's a brief introduction to pattern matching. There are a few things make it awesome.
 
 ### Pattern matching makes your code expressive.
 
@@ -14,6 +50,8 @@ When you describe the requirement with pattern matching, you've almost finished 
 For example, your partner asks you to buy something from the market on your way home:
 
 > If you come home early today, please buy some fruits and vegetables from the market. I need *a bag of potatoes*. Also, buy *some apples* and *grapes* if you see them.
+
+Here's the code bioploate:
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
@@ -42,25 +80,30 @@ what_to_buy(now, demands, items_seen)
 #   }
 ```
 
-We may write something straightforward with `if` and `cond` which are common logic controls in other languages.
+Now let's implement the function `what_to_buy/3`.
+
+We may write something straightforward with `if` and `cond` which are common logic controls.
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
-  if now.hour < 21 do
-    for {item, quantity} <- demands, into: %{} do
+  unless too_late?(now) do
+    for {item, demand_quantity} <- demands, into: %{} do
       cond do
         item_seen[item] == nil ->
           {item, {:error, :not_seen}}
 
-        not enough?(item_seen, item, quantity) ->
+        not enough?(item_seen, item, demand_quantity) ->
           {item, {:error, :sold}}
 
         true ->
-          {item, {:ok, determine_quanity(item_seen, item, quantity)}}
+          {item, {:ok, determine_quanity(item_seen, item, demand_quantity)}}
       end
     end
   end
 end
+
+defp too_late?(t),
+  do: t.hour < 21 
 
 defp enough?(items_seen, item, demand_quanity) do
   left = items_seen[item]
@@ -99,15 +142,15 @@ def what_to_buy(_, demands, item_seen) do
         {left, :some} when is_number(left) ->
           {:ok, :rand.uniform(left - 1) + 1}
 
-        # third pattern: available and fixed demand
+        # third pattern: available and fixed demanded quanlity
         {left, x} when is_enough(left, x) ->
           {:ok, x}
 
-        # fourth pattern: not enough
+        # fourth pattern: not enough on the market
         {left, x} when is_sold(left, x) ->
           {:error, :sold}
 
-        # fifth pattern: not seen
+        # fifth pattern: not seen on the market
         {nil, _} ->
           {:error, :not_seen}
       end
@@ -119,14 +162,60 @@ end
 
 As you can see, **the pattern matching version is much easier to reflect the original requirement.**
 
-But there's more about pattern matching.
+And there's more about pattern matching.
 
 ### Pattern matching is performant
 
 1. Pattern matching will be optimized by compiler [<sup>1</up>](https://erlang.org/doc/efficiency_guide/functions.html#pattern-matching).
 2. Pattern matching can avoid creating temporary strings when matching against binaries [<sup>2</sup>](https://erlang.org/doc/efficiency_guide/binaryhandling.html#match_context).
 
-### Pattern matching with lists
+### Pattern matching is great at decomposing data structures
+
+Here are some basic examples.
+
+```elixir
+iex> [a, b | rest] = [1, 2, 3, 4]
+...> a
+1
+
+iex> b
+2
+
+iex> rest
+[3, 4]
+```
+
+Decomposing a nested map struct:
+
+```elixir
+iex> response = %{
+...>   "data" => %{
+...>     "order1" => %{"success" => true}
+...>   }
+...> }
+...>
+...> %{"data" => %{"result" => %{"order1" => %{"success" => succeeded}}}} = response
+...>
+...> succeeded
+true
+```
+
+Decomposing binary data:
+
+```elixir
+iex> data = "\x03ABCfooooo"
+...> <<content_len, "ABC", content::binary-size(content_len), _::binary>> = data
+
+...> content_len
+3
+
+...> content
+"foo"
+```
+
+This makes decoding binary data so enjoyable. I love processing data in Elixir and that's one of the strong reasons.
+
+#### Special tip: pattern matching with lists
 
 ![linked list](/post-images/linked-list.png)
 
@@ -173,16 +262,6 @@ And also, pattern matching can be used check if a list is empty:
 [] = empty_list
 ```
 
-### Pattern matching with binaries
+## Conclusion
 
-One exciting thing about pattern matching is that binaries can be matched too. This makes decoding binary data such an enjoyment. I love processing data in Elixir and that's one of the strong reasons.
-
-If you're interested, I wrote another post on binaries: [Questions for BitString, Binary, Charlist, and String in Elixir — Part 2: Binary (or bytes)](https://qhwa-85848.medium.com/questions-for-bitstring-binary-charlist-and-string-in-elixir-part-2-binary-or-bytes-687315789030)
-
-
-To be continued:
-
-* comparison
-* List and recursion
-* small single-purpose and pure functions
-* Try & Catch.
+Pattern matching is something so powerful yet an enjoyable way to structure our code. Try it if you haven't, I bet you'll like it.
