@@ -14,7 +14,7 @@ config :qiu_blog, QiuBlogWeb.Endpoint,
   render_errors: [view: QiuBlogWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: QiuBlog.PubSub,
   live_view: [signing_salt: "419a8oxA"],
-  force_ssl: [hsts: true]
+  force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true]
 
 # Configure esbuild (the version is required)
 config :esbuild,
