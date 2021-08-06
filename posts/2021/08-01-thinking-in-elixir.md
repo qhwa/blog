@@ -1,7 +1,7 @@
 -- title: Thinking In Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
 
-Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will show some common patterns that can help new developers master their Elixir skills.
+Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will show some common patterns that can help new developers hone their Elixir skills.
 
 Pattern matching is one of the most exciting features of a functional programming language.
 
@@ -264,3 +264,7 @@ This will lead us to an interesting topic: list and recursion. We'll talk about 
 Pattern matching is something so powerful yet an enjoyable way to structure our code. Try it if you haven't. I bet you'll like it.
 
 
+#### Further reading
+
+* [Video tutorial of pattern matching in Elixir](https://www.poeticoding.com/the-beauty-of-pattern-matching-in-elixir/)
+* [Pin operator](https://elixir-lang.org/getting-started/pattern-matching.html#the-pin-operator) for pattern matching
