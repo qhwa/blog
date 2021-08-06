@@ -1,13 +1,13 @@
 -- title: Thinking In Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
 
-Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, a shift of programming models is required to master programming in Elixir. In this post, I'm gonna show some common patterns that can help new developers master their Elixir skills.
+Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will show some common patterns that can help new developers master their Elixir skills.
 
-Pattern matching is one of the most exciting features in a functional programming language.
+Pattern matching is one of the most exciting features of a functional programming language.
 
 ### What is pattern matching?
 
-In Elixir `=` is a match asserting operator, instead of variable assigning. It takes left and right hand parts. If they match, the assertion is successful, and the result value of the expression is the right part.
+In Elixir, `=` is a match asserting operator instead of variable assigning. It takes left and right hand parts. If they match, the assertion is successful, and the result value of the expression is the right part.
 
 ```elixir
 iex> :foo = :foo
@@ -51,7 +51,7 @@ For example, your partner asks you to buy something from the market on your way 
 
 > If you come home early today, please buy some fruits and vegetables from the market. I need *a bag of potatoes*. Also, buy *some apples* and *grapes* if you see them.
 
-Here's the code bioploate:
+Here's the code for it:
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
@@ -82,7 +82,7 @@ what_to_buy(now, demands, items_seen)
 
 Now let's implement the function `what_to_buy/3`.
 
-We may write something straightforward with `if` and `cond` which are common logic controls.
+We may write something straightforward with the standard logic controls: `if` and `cond`.
 
 ```elixir
 def what_to_buy(now, demands, item_seen) do
@@ -160,16 +160,18 @@ def what_to_buy(_, demands, item_seen) do
 end
 ```
 
-As you can see, **the pattern matching version is much easier to reflect the original requirement.**
+As you can see, **the pattern matching version is much easier to reflect the actual requirement.**
 
 And there's more about pattern matching.
 
 ### Pattern matching is performant
 
+because...
+
 1. Pattern matching will be optimized by compiler [<sup>1</up>](https://erlang.org/doc/efficiency_guide/functions.html#pattern-matching).
 2. Pattern matching can avoid creating temporary strings when matching against binaries [<sup>2</sup>](https://erlang.org/doc/efficiency_guide/binaryhandling.html#match_context).
 
-### Pattern matching is great at decomposing data structures
+### Pattern matching is excellent at decomposing data structures
 
 Here are some basic examples.
 
@@ -213,13 +215,13 @@ iex> data = "\x03ABCfooooo"
 "foo"
 ```
 
-This makes decoding binary data so enjoyable. I love processing data in Elixir and that's one of the strong reasons.
+Pattern matching makes decoding binary data so enjoyable. I love processing data in Elixir, and that's one of the fundamental reasons.
 
 #### Special tip: pattern matching with lists
 
 ![linked list](/post-images/linked-list.png)
 
-Some new developers think list in Elixir/Erlang as equivalent to Array in JavaScript. While an array has a `length` property that allows us to get the length of it efficiently, a list doesn't. The following code is considered inefficient:
+Some new developers think list in Elixir/Erlang as equivalent to Array in JavaScript. While an array has a `length` property that allows us to get its length efficiently, a list doesn't. The following code is considered inefficient:
 
 ```elixir
 # Do not do:
@@ -234,7 +236,7 @@ end
 
 The problem is that lists are linked and sparse in memory. It's `O(1)` to get the head of the list or get the rest which is another list. When the rest is an empty list `[]`, we know we have reached the end of the list. Getting the length of a list is of `O(n)` complexity of time.
 
-So, the above example can be rewritten to:
+So, we can rewrite the above example to:
 
 ```elixir
 def handle_something(my_list),
@@ -247,21 +249,18 @@ defp do_something_with([hd | rest]),
   do: ...
 ```
 
+Pattern matching is the basis of recursion in Erlang.
+
+```elixir
+def foo([_head | _tail]) # <- non_empty_list
+def foo([])              # <- empty_list
+```
+
 This will lead us to an interesting topic: list and recursion. We'll talk about it later posts since this is already getting long.
 
-Before that, just a note, pattern matching against a list can be like destructing in JavaScript:
-
-```elixir
-[first, second, third | rest] = [:a, "b", 50, "foo", "bar"]
-```
-
-And also, pattern matching can be used check if a list is empty:
-
-```elixir
-[_head | _tail] = non_empty_list
-[] = empty_list
-```
 
 ## Conclusion
 
-Pattern matching is something so powerful yet an enjoyable way to structure our code. Try it if you haven't, I bet you'll like it.
+Pattern matching is something so powerful yet an enjoyable way to structure our code. Try it if you haven't. I bet you'll like it.
+
+
