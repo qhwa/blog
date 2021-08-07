@@ -8,13 +8,21 @@ defmodule Mix.Tasks.Post.New do
   mix post.new 'my post title'
   ```
   """
-  @doc false
+
+  @shortdoc "create a new post"
+
+  use Mix.Task
+
+  @impl Mix.Task
   def run(args) do
     case parse_args(args) do
       {_options, [title], []} ->
         title
         |> to_file_path()
         |> write_post(title)
+        |> print_file_path()
+
+        touch_info()
 
       _ ->
         print_usage()
@@ -40,7 +48,7 @@ defmodule Mix.Tasks.Post.New do
 
   defp post_file({year, month, date}, title) do
     Path.join([
-      Application.get_env(:blog, :posts_dir, "."),
+      posts_dir(),
       year |> to_string(),
       [
         month |> to_string() |> String.pad_leading(2, "0"),
@@ -53,6 +61,9 @@ defmodule Mix.Tasks.Post.New do
     ])
   end
 
+  defp posts_dir,
+    do: Application.get_env(:blog, :posts_dir, ".")
+
   defp join_title(title),
     do:
       Regex.scan(~r/\w+/u, title)
@@ -62,12 +73,24 @@ defmodule Mix.Tasks.Post.New do
 
   defp write_post(file, title) do
     file |> Path.dirname() |> File.mkdir_p()
-    File.write(file, content(title))
+    file |> tap(&File.write(&1, content(title)))
   end
 
   defp content(title) do
     """
     -- title: #{title}
     """
+  end
+
+  defp print_file_path(file) do
+    file
+    |> Path.relative_to_cwd()
+    |> IO.puts()
+  end
+
+  defp touch_info do
+    info_file_path = Path.join(posts_dir(), "info.txt")
+
+    File.touch!(info_file_path)
   end
 end

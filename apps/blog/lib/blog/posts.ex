@@ -5,11 +5,15 @@ defmodule Blog.Posts do
     Application.ensure_all_started(app)
   end
 
+  posts_dir = Application.compile_env(:blog, :posts_dir)
+
+  @external_resource Path.join(posts_dir, "info.txt")
+
   paths =
-    Application.compile_env(:blog, :posts_dir)
+    posts_dir
     |> Path.join("/**/*.md")
     |> Path.wildcard()
-    |> Enum.sort()
+    |> Enum.sort(:desc)
 
   posts =
     for path <- paths do
