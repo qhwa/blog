@@ -99,7 +99,7 @@ RUN mix deps.compile
 FROM compile_deps AS compile_app
 WORKDIR /src
 
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 
 COPY apps/blog/lib/ ./apps/blog/lib
 COPY apps/qiu_blog/lib/ ./apps/qiu_blog/lib
@@ -148,7 +148,6 @@ RUN mix release --path /app --quiet
 # -----------------------------------
 FROM elixir-runner AS release_image
 
-ARG APP_REVISION=latest
 ENV MIX_ENV=prod
 
 COPY --from=mix_release /app /app
