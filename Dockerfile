@@ -60,7 +60,7 @@ ENV LC_ALL en_US.UTF-8
 # -----------------------------------
 FROM elixir-builder AS deps
 
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 
 # If you're using a hex mirror:
 # ARG HEX_MIRROR=https://my_hex_mirror
@@ -89,7 +89,7 @@ RUN mix deps.get --only $MIX_ENV
 FROM deps AS compile_deps
 WORKDIR /src
 
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 RUN mix deps.compile
 
 # -----------------------------------
@@ -118,7 +118,7 @@ RUN mix compile
 FROM compile_deps AS digest
 WORKDIR /src/apps/qiu_blog
 
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 
 COPY apps/qiu_blog/assets/ ./assets
 COPY apps/qiu_blog/priv/ ./priv
@@ -135,7 +135,7 @@ FROM compile_app AS mix_release
 
 WORKDIR /src
 
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 
 
 COPY --from=digest /src/apps/qiu_blog/priv/static ./apps/qiu_blog/priv/static
@@ -149,7 +149,7 @@ RUN mix release --path /app --quiet
 FROM elixir-runner AS release_image
 
 ARG APP_REVISION=latest
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod
 
 COPY --from=mix_release /app /app
 COPY --from=compile_app /src/images /src/images
