@@ -4,3 +4,21 @@
 <%= render "tags.html", tags: @post.tags, conn: @conn %>
 
 <%= raw(@post.body) %>
+
+<hr>
+
+<script type="text/javascript">
+  var post_id = "<%= @post.id %>";
+  var disqus_shortname = 'q-the-hacker';
+  var disqus_identifier = 'post_<%= @post.id %>';
+  var disqus_title = '<%= @post.title %>';
+  var disqus_url = 'https://q-the-hacker/post/<%= @post.id %>';
+</script>
+
+<section id="comments">
+  <h1>Comments</h1>
+  <div id="toggle_comments"></div>
+  <div id="comments_info"></div>
+  <div id="disqus_thread"></div>
+  <div id="privacy_info"></div>
+</section>
