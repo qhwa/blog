@@ -50,5 +50,6 @@ defmodule QiuBlogWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug QiuBlogWeb.FlyRegion
   plug QiuBlogWeb.Router
 end
