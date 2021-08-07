@@ -2,20 +2,19 @@ defmodule QiuBlogWeb.FlyRegion do
   @behaviour Plug
 
   import Plug.Conn
+  require Logger
 
   @impl Plug
-  def init(_opts) do
-    %{
-      region: System.get_env("FLY_REGION"),
-      alloc_id: System.get_env("FLY_ALLOC_ID")
-    }
+  def init(opts) do
+    Logger.info(inspect(opts))
+    opts
   end
 
   @impl Plug
-  def call(conn, %{region: region, alloc_id: alloc_id}) do
+  def call(conn, opts) do
     conn
-    |> maybe_put_resp_header("x-fly-region", region)
-    |> maybe_put_resp_header("x-fly-alloc-id", alloc_id)
+    |> maybe_put_resp_header("x-fly-region", opts[:region])
+    |> maybe_put_resp_header("x-fly-alloc-id", opts[:alloc_id])
   end
 
   defp maybe_put_resp_header(conn, name, value) when is_binary(value),
