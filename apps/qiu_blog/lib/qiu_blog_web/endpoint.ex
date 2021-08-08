@@ -51,9 +51,7 @@ defmodule QiuBlogWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
 
-  plug QiuBlogWeb.FlyRegion,
-    region: System.get_env("FLY_REGION"),
-    alloc_id: System.get_env("FLY_ALLOC_ID")
+  plug QiuBlogWeb.FlyRegion
 
   plug QiuBlogWeb.Router
 end

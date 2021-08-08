@@ -17,3 +17,6 @@ import Config
 #      pool_size: 20
 
 # config :blog, :secret_key, System.fetch_env!("MY_APP_SECRET_KEY")
+config :qiu_blog, :fly,
+  region: System.get_env("FLY_REGION", "unknown"),
+  alloc_id: System.get_env("FLY_ALLOC_ID", "unknown")
