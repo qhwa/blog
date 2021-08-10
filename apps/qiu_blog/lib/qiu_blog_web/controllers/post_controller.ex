@@ -62,7 +62,7 @@ defmodule QiuBlogWeb.PostController do
   defp first_image(body) do
     case Regex.run(~r/<img src="(.+)"/U, body) do
       [_, src] ->
-        src
+        Routes.static_url(QiuBlogWeb.Endpoint, src)
 
       _ ->
         nil
