@@ -11,7 +11,7 @@ config :qiu_blog, :metadata,
   title: "Q",
   description: "A software/hardware/life hacker's site.",
   twitter_site: "qhwa",
-  twitter_card_type: "summary"
+  twitter_card_type: "summary_large_image"
 
 # Configures the endpoint
 config :qiu_blog, QiuBlogWeb.Endpoint,
