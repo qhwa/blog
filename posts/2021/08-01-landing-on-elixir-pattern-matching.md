@@ -1,5 +1,6 @@
 -- title: Landing on Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
+-- description: A brief walk-through with pattern matching in Elixir to help new comers to land on Elixir.
 
 Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will talk about some common patterns that can help new developers hone their Elixir skills.
 

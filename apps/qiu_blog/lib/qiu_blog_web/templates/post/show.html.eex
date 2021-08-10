@@ -1,19 +1,22 @@
-<h1><%= raw @post.title %></h1>
-<%= @post.date %>
-<%= @post.author %>
-<%= render "tags.html", tags: @post.tags, conn: @conn %>
+<section class="post">
+  <h1><%= raw @post.title %></h1>
+  <%= @post.date %>
+  <%= @post.author %>
+  <%= render "tags.html", tags: @post.tags, conn: @conn %>
 
-<%= raw(@post.body) %>
+  <%= raw(@post.body) %>
 
-<hr>
+  <hr>
 
-<script type="text/javascript">
-  var post_id = "<%= @post.id %>";
-  var disqus_shortname = 'q-the-hacker';
-  var disqus_identifier = 'post_<%= @post.id %>';
-  var disqus_title = '<%= @post.title %>';
-  var disqus_url = 'https://q-the-hacker/post/<%= @post.id %>';
-</script>
+  <script type="text/javascript">
+    var post_id = "<%= @post.id %>";
+    var disqus_shortname = 'q-the-hacker';
+    var disqus_identifier = 'post_<%= @post.id %>';
+    var disqus_title = '<%= @post.title %>';
+    var disqus_url = 'https://q-the-hacker/post/<%= @post.id %>';
+  </script>
+
+</section>
 
 <section id="comments">
   <h1>Comments</h1>

@@ -7,6 +7,12 @@
 # General application configuration
 import Config
 
+config :qiu_blog, :metadata,
+  title: "Q",
+  description: "A software/hardware/life hacker's site.",
+  twitter_site: "qhwa",
+  twitter_card_type: "summary"
+
 # Configures the endpoint
 config :qiu_blog, QiuBlogWeb.Endpoint,
   url: [host: "localhost"],

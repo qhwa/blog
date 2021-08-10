@@ -12,6 +12,7 @@
               "Qiu's Blog"
       end %>
     </title>
+    <%= render "metadata.html", metadata: @conn.assigns[:metadata] %>
     <link rel="apple-touch-icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>" />
     <link rel="icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/app.css") %>"/>
@@ -19,7 +20,7 @@
   </head>
   <body>
     <header>
-      <section class="container">
+      <section class="nav container">
         <nav role="navigation">
           <ul>
             <li><a href="/about">About</a></li>

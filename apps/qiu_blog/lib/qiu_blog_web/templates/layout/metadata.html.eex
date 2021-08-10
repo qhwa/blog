@@ -1,0 +1,6 @@
+<%= if @metadata do %>
+  <%= for {group, data} <- @metadata, {key, value} <- data do %>
+    <%= if group == :og do %><meta name="<%= key %>" content="<%= value %>" /><% end %>
+    <meta name="<%= group %>:<%= key %>" content="<%= value %>" />
+  <% end %>
+<% end %>

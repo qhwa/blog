@@ -40,22 +40,32 @@ defmodule Blog.Core.Post do
 
   @spec parse(t()) :: t()
   def parse(%Post{} = post) do
-    {metadata, rest_body} = parse_metadata(post.body)
+    {attributes, metadata, rest_body} = parse_metadata(post.body)
 
-    %Post{
-      post
-      | title: metadata["title"],
-        tags: metadata["tags"],
-        body: parse_body(rest_body)
-    }
+    %Post{post | metadata: metadata, body: parse_body(rest_body)}
+    |> struct(attributes)
   end
 
   @spec parse_metadata(String.t()) :: {map(), [String.t()]}
   def parse_metadata(body) do
-    body
-    |> String.trim()
-    |> String.split("\n")
-    |> do_parse_metadata(%{})
+    {parsed, rest_body} =
+      body
+      |> String.trim()
+      |> String.split("\n")
+      |> do_parse_metadata(%{})
+
+    top_levels = ~w[description author title tags] |> MapSet.new()
+
+    {attributes, metadata} =
+      Enum.split_with(parsed, fn {k, _} ->
+        MapSet.member?(top_levels, k)
+      end)
+
+    attributes =
+      attributes
+      |> Enum.map(fn {k, v} -> {String.to_atom(k), v} end)
+
+    {attributes, metadata, rest_body}
   end
 
   defp do_parse_metadata([], metadata),
