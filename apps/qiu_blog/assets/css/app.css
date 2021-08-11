@@ -140,9 +140,23 @@ section#comments #comments_info {
   color: #000;
 }
 
-.post {
+section.post {
   font-family: serif;
   margin-bottom: 2em;
+}
+
+section.post header {
+  border-bottom: none;
+  margin-bottom: 0;
+  font-size: 80%;
+}
+
+section.post header > * {
+  display: inline-block;
+}
+
+summary {
+  cursor: pointer;
 }
 
 .nav.container {

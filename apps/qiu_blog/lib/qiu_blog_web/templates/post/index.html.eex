@@ -3,10 +3,13 @@
     <h2>
       <%= link post.title, to: Routes.post_path(@conn, :show, post.id) %>
     </h2>
-    <%= post.date %>
-    <%= post.author %>
-    <%= render "tags.html", tags: post.tags, conn: @conn %>
 
-    <%= raw(post.description) %>
+    <header>
+      <%= post.date %>
+      <%= post.author %>
+      <%= render "tags.html", tags: post.tags, conn: @conn %>
+    </header>
+
+    <body><%= raw(post.description) %></body>
   </section>
 <% end %>
