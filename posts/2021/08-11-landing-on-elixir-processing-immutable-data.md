@@ -1,11 +1,11 @@
 -- title: Landing on Elixir: Processing Immutable Data
 -- tags: Elixir, data struct, immutable
--- description: Common patterns of processing data in Elixir.
+-- description: Second of the series "Landing on Elixir", with some patterns of processing data in Elixir.
 
-This post is the second one of the "Landing on Elixir" serial which aims to help newcomers from another programming land hone their Elixir programming skills:
+> This post is the second one of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:
 
-- [Landing on Elixir: Pattern Matching](./landing-on-elixir-pattern-matching)
-- Landing on Elixir: Processing Immutable Data
+> - [Landing on Elixir: Pattern Matching](./post/landing-on-elixir-pattern-matching)
+> - Landing on Elixir: Processing Immutable Data
 
 ### Immutable Data
 
@@ -20,6 +20,8 @@ Technically, we can not **update** the data. What we can do is using a function 
 The original data (O) is still available after processed, and the new output data (O') is different. They can share some common parts for better performance, but they are two objects.
 
 The concept is simple, but you need to be used to it because it leads to different processing patterns than mutable data.
+
+Click on the titles to expand them.
 
 <details>
 <summary><h3>Updating a value in a map</h3></summary>

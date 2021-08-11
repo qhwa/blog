@@ -1,6 +1,11 @@
 -- title: Landing on Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
--- description: A brief walk-through with pattern matching in Elixir to help new comers to land on Elixir.
+-- description: First of the series "Landing on Elixir", a brief walk-through with pattern matching in Elixir to help new comers to land on Elixir.
+
+> This post is the first of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:
+
+> - Landing on Elixir: Pattern Matching
+> - [Landing on Elixir: Processing Immutable Data](/post/landing-on-elixir-processing-immutable-data)
 
 Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will talk about some common patterns that can help new developers hone their Elixir skills.
 
