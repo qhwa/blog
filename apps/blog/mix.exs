@@ -25,7 +25,8 @@ defmodule Blog.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:earmark, "~> 1.4"},
+      {:markdown, "~> 0.1.1", hex: :still_markdown},
+      {:html_entities, "~> 0.5"},
       {:makeup, "~> 1.0", override: true},
       {:makeup_elixir, ">= 0.0.0"},
       {:makeup_erlang, ">= 0.0.0"},
