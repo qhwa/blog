@@ -14,10 +14,6 @@ h3 {
 
 code {
   font-family: 'Fira Code', monospace;
-  background: #fff;
-}
-
-code.inline {
   background: #eee;
   font-size: 1em;
 }
@@ -25,6 +21,10 @@ code.inline {
 pre {
   background: #fff;
   border-left: none;
+}
+
+pre code {
+  background: none;
 }
 
 footer.page-footer {
@@ -142,6 +142,7 @@ section#comments #comments_info {
 
 .post {
   font-family: serif;
+  margin-bottom: 2em;
 }
 
 .nav.container {

@@ -1,5 +1,6 @@
 -- title: Landing on Elixir: Processing Immutable Data
--- tags: Elixir, data struct, immutable, Landing on Elixir
+-- tags: Elixir, data struct, immutable
+-- description: Common patterns of processing data in Elixir.
 
 This post is the second one of the "Landing on Elixir" serial which aims to help newcomers from another programming land hone their Elixir programming skills:
 

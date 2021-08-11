@@ -7,6 +7,6 @@
     <%= post.author %>
     <%= render "tags.html", tags: post.tags, conn: @conn %>
 
-    <%= raw(post.body) %>
+    <%= raw(post.description) %>
   </section>
 <% end %>
