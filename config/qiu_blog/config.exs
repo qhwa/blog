@@ -9,7 +9,7 @@ import Config
 
 config :qiu_blog, :metadata,
   title: "Q",
-  description: "A software/hardware/life hacker's site.",
+  description: "A site of a software/hardware/life hacker.",
   twitter_site: "qhwa",
   twitter_card_type: "summary_large_image"
 
