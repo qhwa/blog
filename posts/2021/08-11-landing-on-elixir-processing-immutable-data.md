@@ -269,6 +269,121 @@ def process(other), do: other
 This, of course is not complete because other data structs can be iterated, and you can use this pattern to transform your data’s shape recursively.
 </details>
 
+### A refactor example
+
+Here's an example function I get from our code base:
+
+```elixir
+defp transform_store(store) do
+  retailers = store["retailers"]
+  logo_url = retailers["logoUrl"]
+
+  retailers =
+    if logo_url != nil do
+      retailers = Map.delete(retailers, "logoUrl")
+      logo_url = @prefix <> logo_url
+      Map.put(retailers, "logoUrl", logo_url)
+    else
+      retailers
+    end
+
+  retailer_id = retailers["id"]
+  company = retailers["company"]
+  company_map_id = company["id"]
+  company = Map.delete(company, "id")
+  company = Map.put(company, "_id", company_map_id)
+  retailers = Map.delete(retailers, "id")
+  retailers = Map.delete(retailers, "company")
+  retailers = Map.put(retailers, "_id", retailer_id)
+  retailers = Map.put(retailers, "company", company)
+
+  store_map_id = store["id"]
+  store = Map.delete(store, "id")
+  store = Map.delete(store, "retailers")
+  store = Map.put(store, "retailer", retailers)
+  store = Map.put(store, "_id", store_map_id)
+
+  store
+end
+```
+
+What it does is to transform some data with the following shape:
+
+```elixir
+%{
+  "point" => [_latitude, _longitude],
+  "id" => "store-id",
+  "retailers" => %{
+    "id" => "retailer-id",
+    "logoUrl" => "/path/to/logo",
+    "company" => %{
+      "id" => "company-id"
+    }
+  }
+}
+```
+
+into: 
+
+```elixir
+%{
+  "_id" => "store-id",
+
+  # note that `retailers` has been renamed to
+  # `retailer` (singular form)
+  "retailer" => %{
+    "_id" => "retailer-id",
+    "logoUrl" => @prefix <> "/path/to/logo",
+    "company" => %{
+      "_id" => "company-id"
+    }
+  }
+}
+```
+
+The code smells bad because it uses `Map.delete/2` and `Map.put/3` only which not ideal here. It can be refactor as:
+
+```elixir
+def transform_store(store) do
+  store
+  |> Map.update!("retailers", &transform_retailer/1)
+  |> replace_key_in(~w[id], "_id")
+  |> replace_key_in(~w[retailers], "retailer")
+end
+
+defp transform_retailer(retailer) do
+  retailer
+  |> Map.update("logoUrl", nil, &(@prefix <> &1))
+  |> replace_key_in(~w[id], "_id")
+  |> replace_key_in(~w[company id], "_id")
+end
+
+defp replace_key_in(data, [old_name], new_name),
+  do: replace_key(data, old_name, new_name)
+
+defp replace_key_in(data, [_ | _] = path, new_name) do
+  {path, [old_name]} = Enum.split(path, -1)
+
+  update_in(
+    data,
+    path,
+    &replace_key(&1, old_name, new_name)
+  )
+end
+
+defp replace_key(data, old_name, new_name) do
+  {value, rest} = Map.pop(data, old_name)
+  Map.put(rest, new_name, value)
+end
+```
+
+Let's quickly walk through what we have done to improve it.
+
+1. Since replacing a key in a map is so frequent here, we write a helper function `replace_key/3` to keep the domain function clear to read. Furthermore, this helper function can be extracted to another place which can be reused by other modules or projects.
+2. We use `Map.update!/3` or `Map.update/4` to simplify the data updates.
+
+The refactored version is more maintainable and reusable.
+
 ## Conclusion
 
 We have discussed several patterns to update some parts of the data. I hope they are helpful to you!
