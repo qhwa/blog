@@ -1,7 +1,7 @@
 -- title: Landing on Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
 -- description: First of the series "Landing on Elixir", a brief walk-through with pattern matching in Elixir to help new comers to land on Elixir.
--- acknowledgements: I want to thank [Po Chen](https://github.com/princemaple) for reviewing this post and providing valuable feedback.
+-- acknowledgements: I want to thank <a href="noreferrer" href="https://github.com/princemaple">Po Chen</a> for reviewing this post and providing valuable feedback.
 
 <summary class="note">
 This post is the first of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:

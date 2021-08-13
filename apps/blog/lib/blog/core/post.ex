@@ -96,10 +96,10 @@ defmodule Blog.Core.Post do
     do: nil
 
   defp parse_meta("tags", value),
-    do: {"tags", String.split(value, ",", trim: true)}
+    do: {"tags", String.split(value, ~r/,\s*/, trim: true)}
 
   defp parse_meta(key, value),
-    do: {key, parse_body([value])}
+    do: {key, value}
 
   defp rest_of_body(rest),
     do: rest |> Enum.drop_while(&(&1 =~ ~r/\A\s*\Z/))

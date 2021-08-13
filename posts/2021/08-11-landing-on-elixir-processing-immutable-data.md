@@ -1,11 +1,10 @@
 -- title: Landing on Elixir: Processing Immutable Data
 -- tags: Elixir, data struct, immutable
 -- description: Second of the series "Landing on Elixir", with some patterns of processing data in Elixir.
--- acknowledgements: I want to thank [Po Chen](https://github.com/princemaple) for reviewing this post and providing valuable feedback.
+-- acknowledgements: I want to thank <a href="noreferrer" href="https://github.com/princemaple">Po Chen</a> for reviewing this post and providing valuable feedback.
 
 
 <summary class="note">
-
 This post is the second one of the "Landing on Elixir" series, which aims to help newcomers from another programming land hone their Elixir programming skills:
 
 - [Landing on Elixir: Pattern Matching](./landing-on-elixir-pattern-matching)
