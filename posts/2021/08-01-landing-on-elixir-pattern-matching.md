@@ -214,7 +214,7 @@ iex> response = %{
 ...>   }
 ...> }
 ...>
-...> %{"data" => %{"result" => %{"order1" => %{"success" => succeeded}}}} = response
+...> %{"data" => %{"order1" => %{"success" => succeeded}}} = response
 ...>
 ...> succeeded
 true
