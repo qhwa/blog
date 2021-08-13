@@ -1,25 +1,109 @@
 -- title: Landing on Elixir: Processing Immutable Data
 -- tags: Elixir, data struct, immutable
 -- description: Second of the series "Landing on Elixir", with some patterns of processing data in Elixir.
+-- acknowledgements: I want to thank [Po Chen](https://github.com/princemaple) for reviewing this post and providing valuable feedback.
 
-> This post is the second one of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:
 
-> - [Landing on Elixir: Pattern Matching](./post/landing-on-elixir-pattern-matching)
-> - Landing on Elixir: Processing Immutable Data
+<summary class="note">
+
+This post is the second one of the "Landing on Elixir" series, which aims to help newcomers from another programming land hone their Elixir programming skills:
+
+- [Landing on Elixir: Pattern Matching](./landing-on-elixir-pattern-matching)
+- Landing on Elixir: Processing Immutable Data
+
+</summary>
+
+### The pain of processing immutable data
+
+The other day I saw a block of code whose author had struggled in processing the data. Here’s a simplified version of it:
+
+```elixir
+defp transform_store(store) do
+  retailers = store["retailers"]
+  logo_url = retailers["logoUrl"]
+
+  retailers =
+    if logo_url != nil do
+      retailers = Map.delete(retailers, "logoUrl")
+      logo_url = @prefix <> logo_url
+      Map.put(retailers, "logoUrl", logo_url)
+    else
+      retailers
+    end
+
+  retailer_id = retailers["id"]
+  company = retailers["company"]
+  company_map_id = company["id"]
+  company = Map.delete(company, "id")
+  company = Map.put(company, "_id", company_map_id)
+  retailers = Map.delete(retailers, "id")
+  retailers = Map.delete(retailers, "company")
+  retailers = Map.put(retailers, "_id", retailer_id)
+  retailers = Map.put(retailers, "company", company)
+
+  store_map_id = store["id"]
+  store = Map.delete(store, "id")
+  store = Map.delete(store, "retailers")
+  store = Map.put(store, "retailer", retailers)
+  store = Map.put(store, "_id", store_map_id)
+
+  store
+end
+```
+
+![omg](/post-images/omg.png)
+
+I constrained to figure out that what it does is to transform some data with the following shape:
+
+```elixir
+%{
+  "point" => [_latitude, _longitude],
+  "id" => "store-id",
+  "retailers" => %{
+    "id" => "retailer-id",
+    "logoUrl" => "/path/to/logo",
+    "company" => %{
+      "id" => "company-id"
+    }
+  }
+}
+```
+
+into: 
+
+```elixir
+%{
+  "_id" => "store-id",
+
+  # note that `retailers` has been renamed to
+  # `retailer` (singular form)
+  "retailer" => %{
+    "_id" => "retailer-id",
+    "logoUrl" => @prefix <> "/path/to/logo",
+    "company" => %{
+      "_id" => "company-id"
+    }
+   }
+}
+```
+
+I felt the struggle in writing the code because the author was not familiar with APIs provided by Elixir.
+
+But indeed, processing immutable data in Elixir can be more fun. In this article, we'll discuss some methods to process data in Elixir, and see how this code can be written into maintainable and reusable code.
+
+To warm-up, let's discuss some basic concepts of processing immutable data.
 
 ### Immutable Data
 
-Immutable data is not a new concept. It is a fundament of functional programming. To Erlang and Elixir, it is also the core concept to support the process-oriented language design. Only if the data is immutable can we safely process it in multiple processes parallelly.
+Immutable data is not a new concept. It is a fundament of functional programming. But this may not be obvious at first, and we may struggle in dealing with data, especially in a deeply nested shape.
 
-But this may not be obvious at first, and you may struggle in dealing with data, especially in a deeply nested shape.
-
-Technically, we can not **update** the data. What we can do is using a function to process it, returning new data, leaving the original data unchanged, as the following picture depicts:
+Technically, we can not **update** the data. What we can do is using a function to **transform** it into a new piece of data, leaving the original data unchanged, as the following depicts:
 
 ![a data processing function](/post-images/a-data-processing-function.png)
 
 The original data (O) is still available after processed, and the new output data (O') is different. They can share some common parts for better performance, but they are two objects.
 
-The concept is simple, but you need to be used to it because it leads to different processing patterns than mutable data.
+The concept is simple, but we need to get used to it because it leads to different processing patterns than mutable data.
 
 Click on the titles to expand them.
 
@@ -35,7 +119,7 @@ data = %{"id" => "ABCDEF"}
 And you need to lower case the id value (`"ABCDEF"`), with all other fields remaining the same. The expected result is:
 
 ```elixir
-iex> process.(data)
+iex> downcase_id.(data)
 %{"id" => "abcdef"}
 ```
 
@@ -44,7 +128,7 @@ Solutions:
 You can achieve it by using the `|` (map specific update) operator:
 
 ```elixir
-process = fn %{"id" => id} = data ->
+downcase_id = fn %{"id" => id} = data ->
   %{data | "id" => String.downcase(id)}
 end
 ```
@@ -52,7 +136,7 @@ end
 or [`Map.update!/3`](https://hexdocs.pm/elixir/Map.html#update!/3)
 
 ```elixir
-process = fn data ->
+downcase_id = fn data ->
   Map.update!(data, "id", &String.downcase/1)
 end
 ```
@@ -87,7 +171,7 @@ fn data ->
   # first we remove the old key ("_id"), and save its value
   {id_value, temp_data} = Map.pop(data, "_id")
 
-  # optionally,restructure we may compute a new value based on the
+  # optionally, restructure we may compute a new value based on the
   # original value:
   #
   # id_value = process_id_value(id_value)
@@ -162,7 +246,7 @@ The before and after lists look like this:
 
 ![updating a list](/post-images/updating-a-list.png)
 
-This is expensive when the list is big because we may reconstructure n heads again to generate the new list.
+This is expensive when the list is big because we may restructure n heads again to generate the new list.
 </details>
 
 <details>
@@ -266,98 +350,43 @@ def process(url) when is_binary(url),
 def process(other), do: other
 ```
 
-This, of course is not complete because other data structs can be iterated, and you can use this pattern to transform your data’s shape recursively.
+This, of course, is not complete because other data structs can be iterated, and you can use this pattern to transform your data’s shape recursively.
 </details>
 
-### A refactor example
+### The refactored code
 
-Here's an example function I get from our code base:
-
-```elixir
-defp transform_store(store) do
-  retailers = store["retailers"]
-  logo_url = retailers["logoUrl"]
-
-  retailers =
-    if logo_url != nil do
-      retailers = Map.delete(retailers, "logoUrl")
-      logo_url = @prefix <> logo_url
-      Map.put(retailers, "logoUrl", logo_url)
-    else
-      retailers
-    end
-
-  retailer_id = retailers["id"]
-  company = retailers["company"]
-  company_map_id = company["id"]
-  company = Map.delete(company, "id")
-  company = Map.put(company, "_id", company_map_id)
-  retailers = Map.delete(retailers, "id")
-  retailers = Map.delete(retailers, "company")
-  retailers = Map.put(retailers, "_id", retailer_id)
-  retailers = Map.put(retailers, "company", company)
-
-  store_map_id = store["id"]
-  store = Map.delete(store, "id")
-  store = Map.delete(store, "retailers")
-  store = Map.put(store, "retailer", retailers)
-  store = Map.put(store, "_id", store_map_id)
-
-  store
-end
-```
-
-What it does is to transform some data with the following shape:
-
-```elixir
-%{
-  "point" => [_latitude, _longitude],
-  "id" => "store-id",
-  "retailers" => %{
-    "id" => "retailer-id",
-    "logoUrl" => "/path/to/logo",
-    "company" => %{
-      "id" => "company-id"
-    }
-  }
-}
-```
-
-into: 
-
-```elixir
-%{
-  "_id" => "store-id",
-
-  # note that `retailers` has been renamed to
-  # `retailer` (singular form)
-  "retailer" => %{
-    "_id" => "retailer-id",
-    "logoUrl" => @prefix <> "/path/to/logo",
-    "company" => %{
-      "_id" => "company-id"
-    }
-  }
-}
-```
-
-The code smells bad because it uses `Map.delete/2` and `Map.put/3` only which not ideal here. It can be refactor as:
+Let's look back at the code mentioned at the beginning.
+The code smells bad because it uses `Map.delete/2` and `Map.put/3` only which are not ideal here. It can be refactored as:
 
 ```elixir
 def transform_store(store) do
   store
+  # Let's separate the update on retailer into another small function.
   |> Map.update!("retailers", &transform_retailer/1)
+
+  # Since replacing key name is so common, it is now a new function.
   |> replace_key_in(~w[id], "_id")
+
+  # We reuse the function to change map key.
   |> replace_key_in(~w[retailers], "retailer")
 end
 
 defp transform_retailer(retailer) do
   retailer
+  # Here we use `Map.update/4` to update the logo url.
+  # The result is slightly different than the original
+  # version but should be OK.
   |> Map.update("logoUrl", nil, &(@prefix <> &1))
+
+  # Again, we use `replace_key_in/3` to change key name.
   |> replace_key_in(~w[id], "_id")
   |> replace_key_in(~w[company id], "_id")
 end
+```
 
+And here's the definition of `replace_key_in/3`:
+
+```elixir
 defp replace_key_in(data, [old_name], new_name),
   do: replace_key(data, old_name, new_name)
 
@@ -377,12 +406,13 @@ defp replace_key(data, old_name, new_name) do
 end
 ```
 
-Let's quickly walk through what we have done to improve it.
+Let's quickly recap what we have done to improve it.
 
-1. Since replacing a key in a map is so frequent here, we write a helper function `replace_key/3` to keep the domain function clear to read. Furthermore, this helper function can be extracted to another place which can be reused by other modules or projects.
-2. We use `Map.update!/3` or `Map.update/4` to simplify the data updates.
+1. Since replacing a key in a map is so frequent here, we write a helper function `replace_key_in/3` to keep the domain function clear to read. Furthermore, this helper function can be extracted to another place which can be reused by other modules or projects.
+2. We use `Kernel.update_in/3` to update the deeply nested map.
+3. Several Map APIs (`Map.update!/3`, `Map.pop/2`, and `Map.put/3`) are employed to serve different purposes.
 
-The refactored version is more maintainable and reusable.
+I believe the refactored version is more readable, maintainable, and reusable.
 
 ## Conclusion
 
@@ -392,5 +422,3 @@ We have discussed several patterns to update some parts of the data. I hope they
 
 * [Map module documentation](https://hexdocs.pm/elixir/Map.html)
 * [List module documentation](https://hexdocs.pm/elixir/List.html)
-
-

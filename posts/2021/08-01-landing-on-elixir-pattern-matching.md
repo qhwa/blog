@@ -1,15 +1,19 @@
 -- title: Landing on Elixir: Pattern Matching
 -- tags: Elixir, pattern matching
 -- description: First of the series "Landing on Elixir", a brief walk-through with pattern matching in Elixir to help new comers to land on Elixir.
+-- acknowledgements: I want to thank [Po Chen](https://github.com/princemaple) for reviewing this post and providing valuable feedback.
 
-> This post is the first of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:
+<summary class="note">
+This post is the first of the "Landing on Elixir" series which aims to help newcomers from another programming land hone their Elixir programming skills:
 
-> - Landing on Elixir: Pattern Matching
-> - [Landing on Elixir: Processing Immutable Data](/post/landing-on-elixir-processing-immutable-data)
+- Landing on Elixir: Pattern Matching
+- [Landing on Elixir: Processing Immutable Data](./landing-on-elixir-processing-immutable-data)
+</summary>
 
-Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from an OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will talk about some common patterns that can help new developers hone their Elixir skills.
 
-Pattern matching is one of the most exciting features of a functional programming language.
+Elixir is most likely not the first programming language for a programmer today. Most developers have previous programming experiences before using Elixir. Some come to this new place from OOP land. In such cases, to master programming in Elixir requires a shift of programming models. In this post, I will talk about some common patterns that can help new developers hone their Elixir skills.
+
+Pattern matching is one of the most exciting features of a functional programming language. Functional programming features are being integrated into the mainstream programming languages so more and more programmers is getting familiar with functional languages features, including pattern matching.
 
 ### What is pattern matching?
 
@@ -24,12 +28,18 @@ iex> [1, 2] = [1, 2]
 
 iex> %{foo: "bar"} = %{foo: "bar", foz: "baz"}
 %{foo: "bar", foz: "baz"}
+
+iex> %{} = %{a: 1}
+%{a: 1}
 ```
-Otherwise, if not matched, it is considered unsuccessful and a `MatchError` will be raised:
+Otherwise, it is considered unsuccessful and a `MatchError` will be raised:
 
 ```elixir
 iex> :foo = "foo"
 ** (MatchError) no match of right hand side value: "foo"
+
+iex> [1, 2] = [:a, :b]
+** (MatchError) no match of right hand side value: [:a, :b]
 ```
 
 Pattern matching has a side effect. If the left hand part has some unbind variable names, the corresponding matched values will be bound to them, respectively:
@@ -45,15 +55,15 @@ iex> name
 "Q"
 ```
 
-That's a brief introduction to pattern matching. There are a few things make it awesome.
+There are a few things make it awesome.
 
-### Pattern matching makes your code expressive.
+### Pattern matching makes our code expressive.
 
-When you describe the requirement with pattern matching, you've almost finished programming. Let's take an example.
+When we describe the requirement with pattern matching, we've almost finished programming. Let's take an example.
 
 ![family demand](/post-images/family-demand.png)
 
-For example, your partner asks you to buy something from the market on your way home:
+For example, someone asks us to buy something from the market on our way home:
 
 > If you come home early today, please buy some fruits and vegetables from the market. I need *a bag of potatoes*. Also, buy *some apples* and *grapes* if you see them.
 
@@ -80,7 +90,7 @@ items_seen = %{
 
 what_to_buy(now, demands, items_seen)
 #=> %{
-#     "potato" => {:error, :sold},
+#     "potato" => {:error, :sold_out},
 #     "apple" => {:ok, 2},
 #     "grape" => {:error, :not_seen}
 #   }
@@ -93,13 +103,15 @@ We may write something straightforward with the standard logic controls: `if` an
 ```elixir
 def what_to_buy(now, demands, item_seen) do
   unless too_late?(now) do
+    # Just incase if you wonder what this `into:` does:
+    # https://elixir-lang.org/getting-started/comprehensions.html#the-into-option
     for {item, demand_quantity} <- demands, into: %{} do
       cond do
         item_seen[item] == nil ->
           {item, {:error, :not_seen}}
 
         not enough?(item_seen, item, demand_quantity) ->
-          {item, {:error, :sold}}
+          {item, {:error, :sold_out}}
 
         true ->
           {item, {:ok, determine_quanity(item_seen, item, demand_quantity)}}
@@ -134,7 +146,7 @@ In constract, here's the pattern matching version:
 
 ```elixir
 defguard is_enough(left, x) when is_number(left) and is_number(x) and left >= x
-defguard is_sold(left, x) when is_number(left) and is_number(x) and left < x
+defguard is_sold_out(left, x) when is_number(left) and is_number(x) and left < x
 
 # first pattern: buy nothing when too late
 def what_to_buy(%DateTime{hour: h}, _, _) when h > 21,
@@ -153,8 +165,8 @@ def what_to_buy(_, demands, item_seen) do
           {:ok, x}
 
         # fourth pattern: not enough on the market
-        {left, x} when is_sold(left, x) ->
-          {:error, :sold}
+        {left, x} when is_sold_out(left, x) ->
+          {:error, :sold_out}
 
         # fifth pattern: not seen on the market
         {nil, _} ->
@@ -255,7 +267,9 @@ defp do_something_with([hd | rest]),
   do: ...
 ```
 
-Pattern matching is the basis of recursion in Erlang.
+There is [a good article](https://medium.com/erlang-battleground/ode-to-the-robot-butt-bbd69e69beb2) on this topic.
+
+It is worth noting that pattern matching is the basis of recursion in Erlang.
 
 ```elixir
 def foo([_head | _tail]) # <- non_empty_list
@@ -264,6 +278,25 @@ def foo([])              # <- empty_list
 
 This will lead us to an interesting topic: list and recursion. We'll talk about it later posts since this is already getting long.
 
+#### Last tip: pattern matching with maps
+
+`%{}` can match any map, not only empty maps.
+if we want to match exactly an empty map, we can use `== %{}` guard. For example:
+
+```elixir
+case my_map do
+  _ when my_map == %{} ->
+    "empty map"
+
+  %{} ->
+    "map"
+
+  _ ->
+    "other"
+end
+```
+
+If we need to match an excatly non-empty map, we can employ [`Kernel.map_size/1`](https://hexdocs.pm/elixir/Kernel.html#map_size/1) guard.
 
 ## Conclusion
 
