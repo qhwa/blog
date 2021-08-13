@@ -4,6 +4,8 @@
   <%= @post.author %>
   <%= render "tags.html", tags: @post.tags, conn: @conn %>
 
+  <%= render_acknowlegement(@post) %>
+
   <%= raw(@post.body) %>
 
   <hr>

@@ -1,0 +1,7 @@
+<section id="acknowledgements">
+  <h2>Acknowledgements</h2>
+  <body><%= for content <- @contents do %>
+      <p><%= raw content %></p>
+    <% end %>
+  </body>
+</section>

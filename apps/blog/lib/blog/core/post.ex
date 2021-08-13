@@ -99,7 +99,7 @@ defmodule Blog.Core.Post do
     do: {"tags", String.split(value, ",", trim: true)}
 
   defp parse_meta(key, value),
-    do: {key, value}
+    do: {key, parse_body([value])}
 
   defp rest_of_body(rest),
     do: rest |> Enum.drop_while(&(&1 =~ ~r/\A\s*\Z/))
@@ -109,4 +109,11 @@ defmodule Blog.Core.Post do
 
   defp markdown_to_html(markdown),
     do: Blog.Core.MarkdownParser.parse(markdown)
+
+  @doc """
+  Get metadata values under a given key
+  """
+  def metadata_values(post, name) do
+    for {^name, value} <- post.metadata, do: value
+  end
 end

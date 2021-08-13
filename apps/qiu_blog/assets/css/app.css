@@ -155,6 +155,22 @@ section.post header > * {
   display: inline-block;
 }
 
+#acknowledgements {
+  font-family: sans-serif;
+}
+
+#acknowledgements h2 {
+  font-size: inherit;
+  font-weight: bold;
+}
+
+.note {
+  box-shadow: 0 10px 6px -6px #eee;
+  background-color: #fff7d9;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
 summary {
   cursor: pointer;
 }
