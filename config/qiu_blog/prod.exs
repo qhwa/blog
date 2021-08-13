@@ -11,7 +11,7 @@ import Config
 # before starting your production server.
 config :qiu_blog, QiuBlogWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 80],
-  url: [host: "q-the-hacker.com", port: 443, schema: :https],
+  url: [host: "q-the-hacker.com", port: 443, scheme: "https"],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 
