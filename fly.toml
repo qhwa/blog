@@ -30,6 +30,14 @@ kill_timeout = 5
     handlers = ["http"]
     port = 80
 
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
   [[services.tcp_checks]]
     grace_period = "30s"
     interval = "15s"
