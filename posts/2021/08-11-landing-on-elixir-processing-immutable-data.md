@@ -279,7 +279,7 @@ In some cases, we don't know exactly where the position of the target is. For ex
 }
 ```
 
-We can use `Enum.map/2` to update recursively.
+We can use `Enum.map/2` (or `Map.new/2` for maps) to update recursively.
 
 For a map, we iterate all its `{key, value}` pairs:
 
@@ -301,6 +301,17 @@ def process(map) when is_map(map) do
   end
 end
 ```
+
+or
+
+```elixir
+def process(map) when is_map(map),
+  do: map
+      |> Map.new(fn {key, value} ->
+        {key, process(value)}
+      end)
+```
+
 
 For a list, we iterate all items inside it:
 
@@ -349,7 +360,7 @@ def process(url) when is_binary(url),
 def process(other), do: other
 ```
 
-This, of course, is not complete because other data structs can be iterated, and you can use this pattern to transform your data’s shape recursively.
+This, of course, is not complete for all projects and you may need to iterate other data structs too. But the point is that you can use this pattern to transform your data’s shape recursively.
 </details>
 
 ### The refactored code
