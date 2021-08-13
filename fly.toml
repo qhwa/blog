@@ -11,6 +11,10 @@ kill_timeout = 5
   allowed_public_ports = []
   auto_rollback = true
 
+[[statics]]
+  guest_path = "/src/images"
+  url_prefix = "/post-images"
+
 [[services]]
   http_checks = []
   internal_port = 80
@@ -25,10 +29,6 @@ kill_timeout = 5
   [[services.ports]]
     handlers = ["http"]
     port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
 
   [[services.tcp_checks]]
     grace_period = "1s"
