@@ -3,7 +3,7 @@
 
 ![Hello, world](/post-images/hello-world.png)
 
-I just built another blog. Given I already have two blogs (pnq and medium), why would I build another blog engine on my own?
+I just built another blog. Given I already have two blogs ([pnq](http://q.pnq.cc) and [medium](https://medium.com/@qhwa-85848/)), why would I build another blog engine on my own?
 
 Well, it's because I would like to have some fun playing Elixir. My original blog (pnq) was built on top of jekyll and second on Medium.
 
