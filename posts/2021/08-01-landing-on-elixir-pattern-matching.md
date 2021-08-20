@@ -303,10 +303,11 @@ I wrote another post on [matching structs](./til-pattern-matching-with-structs),
 
 ## Conclusion
 
-Pattern matching is something so powerful yet an enjoyable way to structure our code. Try it if you haven't. I bet you'll like it.
+Pattern matching is something so powerful yet an enjoyable way to structure our code. In my opinion, it's one of the reasons why programming in Elixir or Erlang (or other functional programming languges) is so productive.
 
 
 #### Further reading
 
+* [Official documentation on pattern matching](https://hexdocs.pm/elixir/1.12/patterns-and-guards.html)
 * [Video tutorial of pattern matching in Elixir](https://www.poeticoding.com/the-beauty-of-pattern-matching-in-elixir/)
 * [Pin operator](https://elixir-lang.org/getting-started/pattern-matching.html#the-pin-operator) for pattern matching
