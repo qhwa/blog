@@ -187,7 +187,7 @@ And there's more about pattern matching.
 because...
 
 1. Pattern matching will be optimized by compiler [<sup>1</up>](https://erlang.org/doc/efficiency_guide/functions.html#pattern-matching).
-2. Pattern matching can avoid creating temporary strings when matching against binaries [<sup>2</sup>](https://erlang.org/doc/efficiency_guide/binaryhandling.html#match_context).
+2. Pattern matching can avoid creating temporary strings when matching on binaries [<sup>2</sup>](https://erlang.org/doc/efficiency_guide/binaryhandling.html#match_context).
 
 ### Pattern matching is excellent at decomposing data structures
 
@@ -235,7 +235,7 @@ iex> data = "\x03ABCfooooo"
 
 Pattern matching makes decoding binary data so enjoyable. I love processing data in Elixir, and that's one of the fundamental reasons.
 
-#### Special tip: pattern matching with lists
+#### Special tip: pattern matching on lists
 
 ![linked list](/post-images/linked-list.png)
 
@@ -278,7 +278,7 @@ def foo([])              # <- empty_list
 
 This will lead us to an interesting topic: list and recursion. We'll talk about it later posts since this is already getting long.
 
-#### Last tip: pattern matching with maps
+#### Last tip: pattern matching on maps
 
 `%{}` can match any map, not only empty maps.
 if we want to match exactly an empty map, we can use `== %{}` guard. For example:
