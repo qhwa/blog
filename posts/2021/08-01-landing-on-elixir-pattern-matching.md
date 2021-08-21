@@ -299,7 +299,7 @@ end
 If we need to match an excatly non-empty map, we can employ [`Kernel.map_size/1`](https://hexdocs.pm/elixir/Kernel.html#map_size/1) guard.
 
 Update:
-I wrote another post on [matching structs](./til-pattern-matching-with-structs), instead of plain maps.
+I wrote another post on [matching structs](./til-pattern-matching-on-structs), instead of plain maps.
 
 ## Conclusion
 
