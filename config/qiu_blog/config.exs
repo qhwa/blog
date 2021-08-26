@@ -16,7 +16,6 @@ config :qiu_blog, :metadata,
 # Configures the endpoint
 config :qiu_blog, QiuBlogWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "jtKc24LNHxYfLoMocwmeRCArpoDQ1jqwAzB89ZJlK8Fkwl0q7BVI9fiuVVLlust4",
   render_errors: [view: QiuBlogWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: QiuBlog.PubSub,
   live_view: [signing_salt: "419a8oxA"],

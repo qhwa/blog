@@ -20,3 +20,10 @@ import Config
 config :qiu_blog, :fly,
   region: System.get_env("FLY_REGION", "unknown"),
   alloc_id: System.get_env("FLY_ALLOC_ID", "unknown")
+
+config :qiu_blog, QiuBlogWeb.Endpoint,
+  secret_key_base:
+    System.get_env(
+      "SECRET_KEY_BASE",
+      "jtKc24LNHxYfLoMocwmeRCArpoDQ1jqwAzB89ZJlK8Fkwl0q7BVI9fiuVVLlust4"
+    )
