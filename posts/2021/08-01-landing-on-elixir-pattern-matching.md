@@ -55,7 +55,7 @@ iex> name
 "Q"
 ```
 
-There are a few things make it awesome.
+There are a few things making it awesome.
 
 ### Pattern matching makes our code expressive.
 
