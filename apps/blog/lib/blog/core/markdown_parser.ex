@@ -27,9 +27,19 @@ defmodule Blog.Core.MarkdownParser do
   defp syntax_highlight(code, "language-" <> lang, content),
     do: syntax_highlight(code, lang, content)
 
-  defp syntax_highlight(_, lang, content),
+  @supported_languages ~w[
+    c
+    elixir
+    erlang
+    erl
+  ]
+
+  defp syntax_highlight(_, lang, content) when lang in @supported_languages,
     do:
       content
       |> HtmlEntities.decode()
       |> Makeup.highlight(lexer: lang)
+
+  defp syntax_highlight(code, _lang, _content),
+    do: code
 end
