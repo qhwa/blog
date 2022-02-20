@@ -9,12 +9,16 @@ We don't expect it to be a flat line, but occasionally [Kubernetes][] kills the 
 
 Things got worse when later we finished a project recently and brought a new component that consumed a considerable amount of memory. Soon even at midnight when the load is low, we received alerts after the deployment:
 
-```
+```text
 Pod                      Ready   Status             Restarts   Age
 my-app-8579bc575-7thcq   0/1     OOMKilled          4          9m52s
 ```
 
-And we got an outage because of crash-looping pods. We managed to reduce the memory usage by applying three changes.
+And we got an outage because of crash-looping pods.
+
+![server on fire](/post-images/server-on-fire.png)
+
+Luckily we managed to reduce the memory usage. Turns out it was something we didn't pay enough attentions to about **the memory usage of Event Sourcing processes**. and I want to share how we fixed the issue and what we learned along the way with you.
 
 Before we jump into how we solved it, let me explain our architecture a bit.
 
