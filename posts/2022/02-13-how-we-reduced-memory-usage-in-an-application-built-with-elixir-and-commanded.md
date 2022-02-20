@@ -1,17 +1,17 @@
 -- title: How we reduced memory usage of an Event Sourcing application in Elixir and Commanded
 -- tags: Elixir, Broadway, Commanded, Event Sourcing, OOMKilled, performance improvement
 
-At Zubale, we have an [Elixir][] service built with [Commanded][], a framework for [Event Sourcing][]. It worked pretty well, except its memory usage peaked during the business hours:
+Here at [Zubale][], we have an [Elixir][] service built with [Commanded][], a framework for [Event Sourcing][]. It worked pretty well, except its memory usage peaked during the business hours:
 
 ![memory usage was high during business hours](/post-images/memory-usage-high-in-business-hours.png)
 
 We don't expect it to be a flat line, but occasionally [Kubernetes][] kills the pods because of out-of-memory errors. It led to many symptoms, and the application was unstable. We enabled auto horizontal scaling to keep it running without significant issues.
 
-Things got worse when later we finished a project recently and brought a new component that consumed a considerable amount of memory. Soon even at midnight when the load is low, we received alerts after the deployment:
+Things got worse when recently we finished a project which brought a new component, consuming a considerably additional amount of memory. Soon even at midnight when the load is low, we received alerts after the deployment:
 
 ```text
-Pod                      Ready   Status             Restarts   Age
-my-app-8579bc575-7thcq   0/1     OOMKilled          4          9m52s
+Pod                     Ready  Status     Restarts  Age
+my-app-8579bc575-7thcq  0/1    OOMKilled  4         9m52s
 ```
 
 And we got an outage because of crash-looping pods.
@@ -151,3 +151,4 @@ Thanks for reading, and I hope this post can be helpful to you too!
 [Broadway]: https://elixir-broadway.org/
 [Phoenix LiveDashboard]: https://github.com/phoenixframework/phoenix_live_dashboard
 [Kubernetes]: https://kubernetes.io/
+[Zubale]: https://en.zubale.com/
