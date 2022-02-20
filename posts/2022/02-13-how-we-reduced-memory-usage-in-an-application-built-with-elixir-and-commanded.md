@@ -1,4 +1,4 @@
--- title: How we reduced memory usage of an Event Sourcing application in Elixir and Commanded
+-- title: From 2G to 200M: How We Reduced Memory Usage Of An Event Sourcing Application In Elixir And Commanded
 -- tags: Elixir, Broadway, Commanded, Event Sourcing, OOMKilled, performance improvement
 
 Here at [Zubale][], we have an [Elixir][] service built with [Commanded][], a framework for [Event Sourcing][]. It worked pretty well, except its memory usage peaked during the business hours:
