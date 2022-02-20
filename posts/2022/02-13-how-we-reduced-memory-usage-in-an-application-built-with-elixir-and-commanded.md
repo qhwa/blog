@@ -5,7 +5,7 @@ At Zubale, we have an [Elixir][] service built with [Commanded][], a framework f
 
 ![memory usage was high during business hours](/post-images/memory-usage-high-in-business-hours.png)
 
-We don't expect it to be a flat line, but occasionally [Kubernetes][] the pods because of out-of-memory errors. It led to many symptoms, and the application was unstable. We enabled auto horizontal scaling to keep it running without significant issues.
+We don't expect it to be a flat line, but occasionally [Kubernetes][] kills the pods because of out-of-memory errors. It led to many symptoms, and the application was unstable. We enabled auto horizontal scaling to keep it running without significant issues.
 
 Things got worse when later we finished a project recently and brought a new component that consumed a considerable amount of memory. Soon even at midnight when the load is low, we received alerts after the deployment:
 
