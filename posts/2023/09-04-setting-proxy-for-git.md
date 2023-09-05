@@ -2,6 +2,8 @@
 -- date: 2023-09-04
 -- tags: git, proxy
 
+![linked list](/post-images/proxied-git.png)
+
 Git proxies can be a bit tricky to set up, as my recent experience helping a friend showed. But after some trial and error, we finally got it working. In this article, I'll share the insights and lessons learned from our journey.
 
 ### Some Basics
