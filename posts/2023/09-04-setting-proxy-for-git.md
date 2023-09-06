@@ -41,4 +41,4 @@ Here are a few tips:
 
 Setting up a proxy for Git doesn't have to be daunting, but it does involve configuring different settings in various files. I trust this article has provided you with the guidance you need to smoothly integrate proxies into your Git workflow.
 
-<img src="/post-images/balloons.jpg" width="400" height="400" />
+<img src="/post-images/balloons.jpg" width="400" />
