@@ -156,19 +156,19 @@ config = """
   """
 ```
 
-and it can be used in the calculation:
+The text can be parsed into a table in memory and used for decision making:
 
 ```elixir
 user = %{ level: 2 }
 order = %{ amount: 10 }
 
-table =
-  config
-  |> Tablex.new()
-  |> Tablex.decide(user: user, order: order)
+table = Tablex.new(config)
+
+Tablex.decide(table, user: user, order: order)
+#=> %{discount: "15%"}
 ```
 
-The resultant output, in this case, would be %{discount: "15%"}.
+The resultant output, in this case, would be `%{discount: "15%"}`.
 
 ### Optimizing Performance
 
@@ -178,7 +178,7 @@ While the provided code runs correctly, frequent execution might impact performa
 code = Tablex.CodeGenerator.generate(table)
 ```
 
-The compiled code will closely resemble the following:
+The generated code will closely resemble the following:
 
 ```elixir
 case {user, order} do
@@ -191,7 +191,7 @@ case {user, order} do
 end
 ```
 
-Next the code can be compiled into an Elixir module with help from [Formular](https://hexdocs.pm/formular/Formular.html#module-compiling-the-code-into-an-elixir-module) library:
+Next, the code can be compiled into an Elixir module with help from [Formular](https://hexdocs.pm/formular/Formular.html#module-compiling-the-code-into-an-elixir-module) library:
 
 ```elixir
 Formular.compile_to_module!(code, MyDecisionTable)
