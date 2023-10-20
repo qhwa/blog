@@ -11,7 +11,7 @@ defmodule QiuBlog.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -47,7 +47,7 @@ defmodule QiuBlog.MixProject do
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.23"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:blog, in_umbrella: true},
