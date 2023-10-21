@@ -1,6 +1,8 @@
 defmodule QiuBlogWeb.PostController do
   use QiuBlogWeb, :controller
 
+  action_fallback :page_not_found
+
   @metadata Application.compile_env(:qiu_blog, :metadata, [])
 
   def index(conn, params) do
@@ -32,31 +34,32 @@ defmodule QiuBlogWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Blog.Posts.get(id)
-    image = first_image(post.body)
+    with %{} = post <- Blog.Posts.get(id) do
+      image = first_image(post.body)
 
-    metadata = %{
-      og: [
-        title: post.title,
-        image: image,
-        description: post.description
-      ],
-      twitter: [
-        site: @metadata[:twitter_site],
-        card: @metadata[:twitter_card_type],
-        title: post.title,
-        description: post.description,
-        image: image
-      ]
-    }
+      metadata = %{
+        og: [
+          title: post.title,
+          image: image,
+          description: post.description
+        ],
+        twitter: [
+          site: @metadata[:twitter_site],
+          card: @metadata[:twitter_card_type],
+          title: post.title,
+          description: post.description,
+          image: image
+        ]
+      }
 
-    render(
-      conn,
-      "show.html",
-      post: post,
-      title: post.title,
-      metadata: metadata
-    )
+      render(
+        conn,
+        "show.html",
+        post: post,
+        title: post.title,
+        metadata: metadata
+      )
+    end
   end
 
   defp first_image(body) do
@@ -67,5 +70,11 @@ defmodule QiuBlogWeb.PostController do
       _ ->
         nil
     end
+  end
+
+  defp page_not_found(conn, _params) do
+    conn
+    |> put_status(:not_found)
+    |> render("404.html")
   end
 end

@@ -11,4 +11,11 @@ defmodule QiuBlogWeb.PostView do
         nil
     end
   end
+
+  def render("404.html", _assigns) do
+    raw("""
+    <h1>Error: 404</h1>
+    <p>Sorry, the page you were looking for could not be found.</p>
+    """)
+  end
 end
