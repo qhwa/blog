@@ -7,13 +7,13 @@ body { font-family: 'Montserrat', sans-serif; color: #000000; background-color: 
 .m, .mi, .mf { color: #7653c1; background-color: #f3f2ff; padding-bottom: 1px; }
 .Special { color: #2f6f9f; }
 .Title { color: #000000; }
-.ss, .s { color: #d44950; }
-.nc, .n { color: #699d36; }
-.c1 { color: #999; }
+.ss, .s { color: #ca2f37; }
+.nc, .n { color: #4d7227; }
+.c1 { color: #666; }
 
 td.datetime { width: 20%; }
 td.header { width: 20%; }
-datetime {color: #999; }
+datetime {color: #666; }
 .location-diagram {
   display: flex;
   align-items: center;

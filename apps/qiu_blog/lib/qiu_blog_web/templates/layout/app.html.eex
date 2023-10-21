@@ -21,17 +21,16 @@
   <body>
     <header>
       <section class="nav container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="/about">About</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
         <a href="/" class="brand">
           Qiu's Blog
         </a>
+        <nav role="navigation" data-style="classy">
+            <a href="/">Posts</a>
+            <a href="/about">About</a>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+            <% end %>
+        </nav>
       </section>
     </header>
     <main role="main" class="container">
@@ -44,7 +43,9 @@
       Built with
       <a href="https://elixir-lang.org" rel="no-follow">Elixir</a>,
       <a href="https://phoenixframework.org" rel="no-follow">Phoenix</a>,
-      <a href="https://github.com/tonsky/FiraCode" rel="no-follow">Fira Code</a> and other open-source projects.
+      <a href="https://github.com/tonsky/FiraCode" rel="no-follow">Fira Code</a>,
+      <a href="https://codeberg.org/Freedom-to-Write/readable.css" rel="no-follow">readable.css</a>
+      and other open-source projects.
     </footer>
   </body>
 </html>

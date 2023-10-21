@@ -2,7 +2,7 @@ const commentsAllowed =
   () => localStorage.getItem("commentsAllowed") == "true";
 
 const toggleComments = (event) => {
-  if (event.target.id != "toggle_comments") {
+  if (event.target.getAttribute('href') != "#toggle-comments") {
     return;
   }
 
@@ -29,7 +29,7 @@ const commentsInfo = () => {
   if (commentsAllowed()) {
     return `
     <p>
-      The comments are currently enabled. If you wish to disable them, click <a id="toggle_comments" href="#">here</a>.
+      The comments are currently enabled. If you wish to disable them, click <a href="#toggle-comments">here</a>.
     </p>
     <p>
       Since comments are managed by <a href="https://disqus.com/" target="_blank">Disqus</a>, disabling them won't erase
@@ -41,7 +41,7 @@ const commentsInfo = () => {
 
   return `
     <p>
-      The comments are currently disabled. If you wish to enable them, click <a id="toggle_comments" href="#">here</a>.
+      The comments are currently disabled. If you wish to enable them, click <a href="#toggle-comments">here</a>.
     </p>
     <p>
       The comments are managed by <a href="https://disqus.com/" target="_blank">Disqus</a> which is also the sole
@@ -73,7 +73,7 @@ const privacyInfo = () => {
     return `
     <p>
       According to your settings, the comments are currently enabled.
-      If you wish to disable them, click <a id="toggle_comments" href="#">here</a>.
+      If you wish to disable them, click <a href="#toggle-comments">here</a>.
       Since comments are managed by <a href="https://disqus.com/" target="_blank">Disqus</a>, disabling them won't erase
       any of your previously stored personal data. If you wish to do that, please refer to
       <a href="https://disqus.com/support/">Disqus support</a>.
@@ -84,7 +84,7 @@ const privacyInfo = () => {
     return `
     <p>
       According to your settings, the comments are currently disabled.
-      If you wish to enable them, click <a id="toggle_comments" href="#">here</a>. By enabling the comments you
+      If you wish to enable them, click <a href="#toggle-comments">here</a>. By enabling the comments you
       agree to the <a href="https://help.disqus.com/terms-and-policies/terms-of-service/" target="_blank">Disqus Terms of Service</a>
       and accept the <a href="https://help.disqus.com/terms-and-policies/disqus-privacy-policy" target="_blank">Disqus Privacy Policy</a>.
     </p>

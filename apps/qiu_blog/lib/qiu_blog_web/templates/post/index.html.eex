@@ -1,15 +1,6 @@
 <%= for post <- @posts do %>
-  <section class="post">
-    <h2>
-      <%= link post.title, to: Routes.post_path(@conn, :show, post.id) %>
-    </h2>
+  <h3><%= link post.title, to: Routes.post_path(@conn, :show, post.id) %></h3>
 
-    <header>
-      <%= post.date %>
-      <%= post.author %>
-      <%= render "tags.html", tags: post.tags, conn: @conn %>
-    </header>
-
-    <body><%= raw(post.description) %></body>
-  </section>
+  <time><%= post.date %></time>
+  <%= render "tags.html", tags: post.tags, conn: @conn %>
 <% end %>
